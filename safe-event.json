@@ -1,0 +1,15 @@
+{
+  "event_id": "evt-001",
+  "timestamp": "2026-03-07T19:00:00Z",
+  "agent_id": "uav-001",
+  "location": {
+    "lat": 38.5816,
+    "lng": -121.4944
+  },
+  "telemetry": {
+    "speed_mps": 0.8,
+    "altitude_m": 120.0,
+    "heading_deg": 45.0
+  },
+  "proposed_action": "continue_mission"
+}
