@@ -23,7 +23,7 @@ A deterministic local runtime validation engine that evaluates telemetry or prop
 
 This short demo shows deterministic local policy evaluation, one allowed event, one denied event, and replayable JSON decision artifacts written to `./artifacts/`.
 
-Full video: [Watch demo](docs/demo.mp4)
+Full video: [Watch the demo](docs/demo4.mp4)
 
 ## Repository Structure
 
