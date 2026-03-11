@@ -2,7 +2,7 @@
 name = "reflex-engine-sdk"
 version = "0.1.0"
 edition = "2021"
-authors = ["Reflex Engine Team"]
+authors = ["Reflex Engine Contributors"]
 description = "Local-first deterministic geospatial evaluation with replayable audit artifacts"
 license = "MIT"
 

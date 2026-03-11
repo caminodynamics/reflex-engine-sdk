@@ -2,10 +2,7 @@
 .gitignore
 target
 artifacts
-lobby
-portal
 reflex-engine
-README.md
 RECORDING.md
 run-demo.bat
 run-demo.sh

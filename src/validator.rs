@@ -36,11 +36,13 @@ pub fn evaluate_event(event: &Event, policy: &Policy) -> Decision {
                     let coords: Vec<(f64, f64)> = polygon
                         .iter()
                         .filter_map(|p| {
-                            p.get("lat").and_then(|lat| lat.as_f64()).and_then(|lat_val| {
-                                p.get("lng")
-                                    .and_then(|lng| lng.as_f64())
-                                    .map(|lng_val| (lat_val, lng_val))
-                            })
+                            p.get("lat")
+                                .and_then(|lat| lat.as_f64())
+                                .and_then(|lat_val| {
+                                    p.get("lng")
+                                        .and_then(|lng| lng.as_f64())
+                                        .map(|lng_val| (lat_val, lng_val))
+                                })
                         })
                         .collect();
 
@@ -174,8 +176,14 @@ mod tests {
         let decision = evaluate_event(&event, &policy);
 
         assert_eq!(decision.outcome, "ALLOW");
-        assert!(decision.reasons.iter().any(|reason| reason.contains("Geofence geofence_001: PASS")));
-        assert!(decision.reasons.iter().any(|reason| reason.contains("Speed speed_002: PASS")));
+        assert!(decision
+            .reasons
+            .iter()
+            .any(|reason| reason.contains("Geofence geofence_001: PASS")));
+        assert!(decision
+            .reasons
+            .iter()
+            .any(|reason| reason.contains("Speed speed_002: PASS")));
     }
 
     #[test]
@@ -186,8 +194,14 @@ mod tests {
         let decision = evaluate_event(&event, &policy);
 
         assert_eq!(decision.outcome, "DENY");
-        assert!(decision.reasons.iter().any(|reason| reason.contains("Geofence geofence_001: FAIL")));
-        assert!(decision.reasons.iter().any(|reason| reason.contains("Speed speed_002: FAIL")));
+        assert!(decision
+            .reasons
+            .iter()
+            .any(|reason| reason.contains("Geofence geofence_001: FAIL")));
+        assert!(decision
+            .reasons
+            .iter()
+            .any(|reason| reason.contains("Speed speed_002: FAIL")));
     }
 
     #[test]
@@ -198,8 +212,14 @@ mod tests {
         let decision = evaluate_event(&event, &policy);
 
         assert_eq!(decision.outcome, "DENY");
-        assert!(decision.reasons.iter().any(|reason| reason.contains("Geofence geofence_001: FAIL")));
-        assert!(decision.reasons.iter().any(|reason| reason.contains("Speed speed_002: PASS")));
+        assert!(decision
+            .reasons
+            .iter()
+            .any(|reason| reason.contains("Geofence geofence_001: FAIL")));
+        assert!(decision
+            .reasons
+            .iter()
+            .any(|reason| reason.contains("Speed speed_002: PASS")));
     }
 
     #[test]
@@ -210,8 +230,14 @@ mod tests {
         let decision = evaluate_event(&event, &policy);
 
         assert_eq!(decision.outcome, "DENY");
-        assert!(decision.reasons.iter().any(|reason| reason.contains("Geofence geofence_001: PASS")));
-        assert!(decision.reasons.iter().any(|reason| reason.contains("Speed speed_002: FAIL")));
+        assert!(decision
+            .reasons
+            .iter()
+            .any(|reason| reason.contains("Geofence geofence_001: PASS")));
+        assert!(decision
+            .reasons
+            .iter()
+            .any(|reason| reason.contains("Speed speed_002: FAIL")));
     }
 
     #[test]

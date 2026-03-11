@@ -29,7 +29,8 @@ fn json_response<T: Serialize>(status: u16, payload: &T) -> Response<std::io::Cu
 fn main() -> Result<()> {
     let policy = Policy::load("demo-policy.json").context("failed to load demo-policy.json")?;
     let addr = std::env::var("REFLEX_ADDR").unwrap_or_else(|_| "127.0.0.1:18080".to_string());
-    let server = Server::http(&addr).map_err(|err| anyhow!("failed to bind validator server: {err}"))?;
+    let server =
+        Server::http(&addr).map_err(|err| anyhow!("failed to bind validator server: {err}"))?;
 
     println!("Reflex validator server listening on http://{addr}");
     println!("POST /validate");

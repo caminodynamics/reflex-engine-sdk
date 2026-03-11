@@ -1,52 +1,84 @@
 use anyhow::Result;
-use reflex_engine::{summarize_reasons, validate_event_and_persist, Event, Policy};
+use reflex_engine::{validate_event_and_persist, Event, Policy};
 
-fn print_action_result(event: &Event, outcome: &str, reason: &str, artifact_path: &str) {
+fn format_rule_line(reason: &str) -> String {
+    if let Some(rest) = reason.strip_prefix("Geofence ") {
+        let rule_id = rest
+            .split_once(':')
+            .map(|(rule_id, _)| rule_id)
+            .unwrap_or("unknown");
+        let status = if reason.contains(": PASS") {
+            "PASS"
+        } else {
+            "FAIL"
+        };
+        return format!("rule {rule_id}: {status}");
+    }
+
+    if let Some(rest) = reason.strip_prefix("Speed ") {
+        let rule_id = rest
+            .split_once(':')
+            .map(|(rule_id, _)| rule_id)
+            .unwrap_or("unknown");
+        let status = if reason.contains(": PASS") {
+            "PASS"
+        } else {
+            "FAIL"
+        };
+        let detail = reason
+            .split(" - ")
+            .nth(1)
+            .map(|value| value.trim().replacen(" m/s", "", 1))
+            .unwrap_or_default();
+        return format!("rule {rule_id}: {status} ({detail})");
+    }
+
+    reason.to_string()
+}
+
+fn print_event_result(event: &Event, outcome: &str, reasons: &[String]) {
+    println!("[event] {}", event.event_id);
     println!(
-        "\n[action] {} | {} | {}",
-        event.event_id, event.agent_id, event.proposed_action
-    );
-    println!(
-        "context  {:.4},{:.4} | {:.1} m/s",
+        "input: lat={:.4} lon={:.4} speed={:.1}m/s",
         event.location.lat, event.location.lng, event.telemetry.speed_mps
     );
-    println!("result   {} | {}", outcome, reason);
-    println!("artifact {}", artifact_path);
+    println!("decision: {outcome}");
+
+    for reason in reasons {
+        println!("{}", format_rule_line(reason));
+    }
+    println!();
 }
 
 fn main() -> Result<()> {
     println!("Reflex Engine SDK");
     println!("-----------------");
-    println!("runtime spatial guardrail");
-    println!("[guardrail] online");
-
+    println!();
+    println!("[engine] starting runtime validator");
+    
     let policy = Policy::load("demo-policy.json")?;
-    println!(
-        "[policy] {} active with {} rules",
-        policy.policy_id,
-        policy.rules.iter().filter(|rule| rule.enabled).count()
-    );
+    println!("[policy] loaded: {}", policy.policy_id);
+    println!();
 
     let safe_event = Event::load("safe-event.json")?;
-    let violating_event = Event::load("violating-event.json")?;
-
     let safe_validation = validate_event_and_persist(&safe_event, &policy)?;
-    print_action_result(
+    print_event_result(
         &safe_event,
         &safe_validation.decision.outcome,
-        &summarize_reasons(&safe_validation.decision.reasons),
-        &safe_validation.artifact_path,
+        &safe_validation.decision.reasons,
     );
 
+    let violating_event = Event::load("violating-event.json")?;
     let violating_validation = validate_event_and_persist(&violating_event, &policy)?;
-    print_action_result(
+    print_event_result(
         &violating_event,
         &violating_validation.decision.outcome,
-        &summarize_reasons(&violating_validation.decision.reasons),
-        &violating_validation.artifact_path,
+        &violating_validation.decision.reasons,
     );
 
-    println!("\n[guardrail] session complete");
+    println!("[artifact] {}", safe_validation.artifact_path);
+    println!("[artifact] {}", violating_validation.artifact_path);
+    println!("done");
 
     Ok(())
 }

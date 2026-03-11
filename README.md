@@ -1,22 +1,29 @@
 # Reflex Engine SDK
 
-Reflex is a local-first deterministic spatial validation engine for evaluating proposed actions or telemetry against policy rules and emitting replayable JSON artifacts.
+A deterministic local runtime validation engine that evaluates telemetry or proposed actions against policy rules and emits replayable JSON decision artifacts.
 
-It is intended to be used as a runtime action and policy guardrail: given a policy and an event, it produces the same decision and artifact shape every time for the same inputs.
+**Purpose**: Pre-execution validation with deterministic behavior and replayable JSON decision artifacts. Not an autonomy stack.
 
 ## What It Is
 
-- A deterministic decision layer for spatial telemetry and proposed actions
+- A deterministic validation layer for telemetry and proposed actions
 - A runtime action and policy guardrail with local execution
-- A generator of replayable decision artifacts for audit and debugging
+- A generator of replayable decision artifacts for inspection, audit, and debugging
 - A small Rust project that is easy to run as a terminal demo or local API
 
 ## What It Is Not
 
+- A full autonomy stack or flight control system
 - A full fleet management platform
 - A cloud observability suite
 - A policy authoring console
 - A claim of physical enforcement or autonomous control
+
+## Quick demo
+
+This short demo shows deterministic local policy evaluation, one allowed event, one denied event, and replayable JSON decision artifacts written to `./artifacts/`.
+
+Full video: [Watch demo](docs/demo.mp4)
 
 ## Repository Structure
 
@@ -31,43 +38,21 @@ It is intended to be used as a runtime action and policy guardrail: given a poli
 - `artifacts/` - generated output directory, ignored by Git
 - `target/` - Rust build output, ignored by Git
 
-## 60-Second Demo
+## Quick Start
 
-Run the terminal demo to evaluate one allowed action and one denied action using the same validator core and artifact path as the API.
+**Quick demo**: Run a single command to see deterministic validation in action.
 
 ```bash
+# Windows (one-click)
 run-demo.bat
-```
 
-Cross-platform:
-
-```bash
+# Cross-platform manual
 cargo build --release --bin demo
-./target/release/demo  # macOS/Linux
 ./target/release/demo.exe  # Windows
+./target/release/demo      # macOS/Linux
 ```
 
-Expected terminal output:
-
-```text
-Reflex Engine SDK
------------------
-runtime spatial guardrail
-[guardrail] online
-[policy] spatial-guard-001 active with 2 rules
-
-[action] evt-001 | uav-001 | continue_mission
-context  38.5816,-121.4944 | 0.8 m/s
-result   ALLOW | geofence_001 ok, speed_002 ok
-artifact artifacts/evt-001.json
-
-[action] evt-002 | uav-002 | continue_mission
-context  38.5816,-121.4944 | 3.5 m/s
-result   DENY | geofence_001 ok, speed_002 exceeded
-artifact artifacts/evt-002.json
-
-[guardrail] session complete
-```
+**Output**: One ALLOW action, one DENY action, replayable JSON artifacts written to `./artifacts/`
 
 ## API Quickstart
 
@@ -95,7 +80,7 @@ Example response:
 
 ```json
 {
-  "decision": "allow",
+  "decision": "ALLOW",
   "reason": "geofence_001 ok, speed_002 ok",
   "policy_id": "spatial-guard-001",
   "artifact_version": "1.0"
@@ -112,6 +97,7 @@ docker build -t reflex-server:local .
 
 Run the container and mount `./artifacts` so generated artifacts are available on the host:
 
+**Windows:**
 ```bash
 docker run --rm -p 18080:18080 -v "%cd%\artifacts:/app/artifacts" reflex-server:local
 ```
@@ -158,3 +144,4 @@ Example artifact:
   "artifact_version": "1.0"
 }
 ```
+
