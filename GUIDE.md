@@ -54,3 +54,22 @@ At a high level, the demo does this:
 After running the demo, the `./artifacts/` directory contains decision files that show what happened, including the decision, the reason, the policy ID, and the input payload used for evaluation.
 
 The point of the demo is not just that Reflex prints ALLOW or DENY. The point is that each evaluation also produces an inspectable record that can be reviewed later to understand why that decision happened.
+
+## What this demo proves and does not prove
+
+This demo proves a narrow but important workflow:
+
+- Reflex can evaluate a proposed action or event against local policy rules
+- Reflex can return an ALLOW or DENY decision
+- Reflex can write a replayable JSON artifact for each evaluation
+- The validation step can be made explicit and inspectable instead of being hidden inside a larger system
+
+This demo does not prove:
+
+- a full autonomy stack
+- production-ready robotics or drone integration
+- hard real-time guarantees
+- end-to-end actuator behavior
+- a full fleet management or observability platform
+
+The purpose of the demo is to show the validation loop clearly in a small local setup. It is meant to prove the core product shape, not every possible deployment environment or system capability.
