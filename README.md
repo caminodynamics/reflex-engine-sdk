@@ -1,23 +1,16 @@
 # Reflex Engine SDK
 
-A deterministic local runtime validation engine that evaluates telemetry or proposed actions against policy rules and emits replayable JSON decision artifacts.
+Use Reflex when you need to check a proposed action before execution and keep a replayable record of decision.
 
-**Purpose**: Pre-execution validation with deterministic behavior and replayable JSON decision artifacts. Not an autonomy stack.
+A telemetry event or proposed action goes in, Reflex evaluates it against local policy rules, returns ALLOW or DENY, and writes a JSON decision artifact for inspection, audit, and debugging.
 
-## What It Is
+Reflex is a deterministic local runtime validation engine designed for systems that need a lightweight validation step between input and execution. It is not a full autonomy stack, fleet management platform, or policy authoring console.
 
-- A deterministic validation layer for telemetry and proposed actions
-- A runtime action and policy guardrail with local execution
-- A generator of replayable decision artifacts for inspection, audit, and debugging
-- A small Rust project that is easy to run as a terminal demo or local API
+## What you can do with this
 
-## What It Is Not
-
-- A full autonomy stack or flight control system
-- A full fleet management platform
-- A cloud observability suite
-- A policy authoring console
-- A claim of physical enforcement or autonomous control
+- Check a proposed action before execution
+- Return ALLOW or DENY based on local policy rules
+- Generate a replayable JSON artifact showing why decision was made
 
 ## Quick demo
 
