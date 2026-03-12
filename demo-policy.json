@@ -1,0 +1,30 @@
+{
+  "policy_id": "spatial-guard-001",
+  "version": "1.0",
+  "name": "Basic Spatial Guardrail",
+  "rules": [
+    {
+      "rule_id": "geofence_001",
+      "rule_type": "geofence",
+      "enabled": true,
+      "params": {
+        "polygon": [
+          {"lat": 38.0, "lng": -122.0},
+          {"lat": 38.0, "lng": -121.0},
+          {"lat": 39.0, "lng": -121.0},
+          {"lat": 39.0, "lng": -122.0}
+        ],
+        "name": "Sacramento Area"
+      }
+    },
+    {
+      "rule_id": "speed_002",
+      "rule_type": "speed_limit",
+      "enabled": true,
+      "params": {
+        "max_mps": 2.0,
+        "name": "Max Speed 2.0 m/s"
+      }
+    }
+  ]
+}
