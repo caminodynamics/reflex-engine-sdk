@@ -41,7 +41,7 @@ This short demo shows deterministic local policy evaluation, one allowed event, 
 
 The demo evaluates one allowed event and one denied event, then writes a replayable JSON artifact for each result to `./artifacts/`.
 
-Full video: [Watch the demo](docs/demo5gif.mp4)
+Full video: [Watch the demo](docs/demo0.mp4)
 
 ## Repository Structure
 
