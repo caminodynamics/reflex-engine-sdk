@@ -37,6 +37,8 @@ A robot, drone, or local controller proposes an action such as continuing a miss
 
 ## Quick demo
 
+For a deeper walkthrough, see [GUIDE.md](GUIDE.md).
+
 This short demo shows deterministic local policy evaluation, one allowed event, one denied event, and replayable JSON decision artifacts written to `./artifacts/`.
 
 The demo evaluates one allowed event and one denied event, then writes a replayable JSON artifact for each result to `./artifacts/`.
