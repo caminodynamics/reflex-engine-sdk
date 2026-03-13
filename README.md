@@ -6,19 +6,15 @@ A telemetry event or proposed action goes in, Reflex evaluates it against local 
 
 **Purpose**: Pre-execution validation with deterministic behavior and replayable JSON decision artifacts. Not an autonomy stack.
 
-## What you can do with this
-
-- Check a proposed action before execution
-- Return ALLOW or DENY based on local policy rules
-- Generate a replayable JSON artifact showing why the decision was made
+For a complete walkthrough, see [GUIDE.md](GUIDE.md).
 
 ## Where this fits
 
-Reflex sits between a planner, controller, or local system and execution. A proposed action comes in, Reflex checks it against rules, returns ALLOW or DENY, and writes a replayable JSON artifact before execution continues.
+Reflex sits between a planner, controller, or local system and execution. A proposed action comes in, Reflex checks it against rules, and writes a replayable JSON artifact before execution continues.
 
 ## Example use case
 
-A robot, drone, or local controller proposes an action such as continuing a mission, entering a zone, or crossing a boundary. Reflex checks that action against local rules before it executes and records the result so the decision can be inspected later.
+A robot, drone, or local controller proposes an action such as continuing a mission, entering a zone, or crossing a boundary. Reflex validates the action against local rules and records the decision for later inspection.
 
 ## What It Is
 
