@@ -18,6 +18,10 @@ path = "src/bin/demo.rs"
 name = "server"
 path = "src/bin/server.rs"
 
+[[bin]]
+name = "benchmark"
+path = "src/bin/benchmark.rs"
+
 [dependencies]
 anyhow = "1.0"
 serde = { version = "1.0", features = ["derive"] }
